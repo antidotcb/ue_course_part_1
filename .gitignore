@@ -73,8 +73,8 @@ Plugins/*/Intermediate/*
 # Cache files for the editor to use
 DerivedDataCache/*
 *.DotSettings.user
-/Intermediate
-/Content
-/Saved
-/.git
-/.vscode
+
+.ignore
+.vscode/
+Makefile
+ue_course_part_1.code-workspace
