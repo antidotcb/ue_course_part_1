@@ -2,12 +2,6 @@
 
 #include "GameFramework/GameplayMessageSubsystem.h"
 #include "Engine/Engine.h"
-#include "Engine/GameInstance.h"
-#include "Engine/World.h"
-#include "UObject/ScriptMacros.h"
-#include "UObject/Stack.h"
-
-#include UE_INLINE_GENERATED_CPP_BY_NAME(GameplayMessageSubsystem)
 
 DEFINE_LOG_CATEGORY(LogGameplayMessageSubsystem);
 
@@ -25,14 +19,28 @@ namespace UE
 //////////////////////////////////////////////////////////////////////
 // FGameplayMessageListenerHandle
 
+FGameplayMessageListenerHandle::FGameplayMessageListenerHandle(UGameplayMessageSubsystem* InSubsystem, FGameplayTag InChannel, int32 InID)
+	: Subsystem(InSubsystem)
+	, Channel(InChannel)
+	, ID(InID)
+{}
+
+bool FGameplayMessageListenerHandle::IsValid() const
+{
+	return ID != 0;
+}
+
 void FGameplayMessageListenerHandle::Unregister()
 {
-	if (UGameplayMessageSubsystem* StrongSubsystem = Subsystem.Get())
+	if (IsValid())
 	{
-		StrongSubsystem->UnregisterListener(*this);
-		Subsystem.Reset();
-		Channel = FGameplayTag();
-		ID = 0;
+		if (UGameplayMessageSubsystem* GameplayMessageSubsystem = Subsystem.Get())
+		{
+			GameplayMessageSubsystem->UnregisterListener(*this);
+			Subsystem.Reset();
+			Channel = FGameplayTag();
+			ID = 0;
+		}
 	}
 }
 
@@ -188,4 +196,3 @@ void UGameplayMessageSubsystem::UnregisterListenerInternal(FGameplayTag Channel,
 		}
 	}
 }
-

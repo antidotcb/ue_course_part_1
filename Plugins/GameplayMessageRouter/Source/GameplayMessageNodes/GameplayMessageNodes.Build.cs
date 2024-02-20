@@ -6,11 +6,16 @@ public class GameplayMessageNodes : ModuleRules
 {
 	public GameplayMessageNodes(ReadOnlyTargetRules Target) : base(Target)
 	{
+		PublicDependencyModuleNames.AddRange(new string[]
+		{
+			"BlueprintGraph"
+		});
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 
 		PrivateDependencyModuleNames.AddRange(
-			new string[]
+		new string[]
 			{
+				"BlueprintGraph",
 				"Core",
 				"CoreUObject",
 				"Engine",
@@ -19,14 +24,7 @@ public class GameplayMessageNodes : ModuleRules
 				"GameplayMessageRuntime",
 				"UnrealEd"
 			}
-		);
-
-		PublicDependencyModuleNames.AddRange(
-			new string[]
-			{
-				"BlueprintGraph",
-			}
-		);
+        );
 
 		PrivateIncludePaths.AddRange(
 			new string[]

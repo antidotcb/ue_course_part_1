@@ -1,15 +1,8 @@
 {
 	"FileVersion": 3,
-	"EngineAssociation": "{B320D0FF-0D93-4ADF-A4EF-251B4BBFF43E}",
+	"EngineAssociation": "5.3",
 	"Category": "",
 	"Description": "",
-	"Modules": [
-		{
-			"Name": "ue_course_part_1",
-			"Type": "Runtime",
-			"LoadingPhase": "Default"
-		}
-	],
 	"Plugins": [
 		{
 			"Name": "ModelingToolsEditorMode",

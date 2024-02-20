@@ -2,15 +2,14 @@
 
 #pragma once
 
+#include "CoreMinimal.h"
+#include "Subsystems/GameInstanceSubsystem.h"
+#include "Engine/World.h"
 #include "GameFramework/GameplayMessageTypes2.h"
 #include "GameplayTagContainer.h"
-#include "Subsystems/GameInstanceSubsystem.h"
-#include "UObject/WeakObjectPtr.h"
+#include "Logging/LogMacros.h"
 
 #include "GameplayMessageSubsystem.generated.h"
-
-class UGameplayMessageSubsystem;
-struct FFrame;
 
 GAMEPLAYMESSAGERUNTIME_API DECLARE_LOG_CATEGORY_EXTERN(LogGameplayMessageSubsystem, Log, All);
 
@@ -23,14 +22,19 @@ class UAsyncAction_ListenForGameplayMessage;
 USTRUCT(BlueprintType)
 struct GAMEPLAYMESSAGERUNTIME_API FGameplayMessageListenerHandle
 {
-public:
 	GENERATED_BODY()
 
+private:
+	friend UGameplayMessageSubsystem;
+
+public:
 	FGameplayMessageListenerHandle() {}
 
+	bool IsValid() const;
 	void Unregister();
 
-	bool IsValid() const { return ID != 0; }
+private:
+	FGameplayMessageListenerHandle(UGameplayMessageSubsystem* InSubsystem, FGameplayTag InChannel, int32 InID);
 
 private:
 	UPROPERTY(Transient)
@@ -42,11 +46,8 @@ private:
 	UPROPERTY(Transient)
 	int32 ID = 0;
 
+private:
 	FDelegateHandle StateClearedHandle;
-
-	friend UGameplayMessageSubsystem;
-
-	FGameplayMessageListenerHandle(UGameplayMessageSubsystem* InSubsystem, FGameplayTag InChannel, int32 InID) : Subsystem(InSubsystem), Channel(InChannel), ID(InID) {}
 };
 
 /** 
